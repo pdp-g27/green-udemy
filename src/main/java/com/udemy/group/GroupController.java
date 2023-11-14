@@ -6,6 +6,7 @@ import com.udemy.group.dto.GroupUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,25 +21,30 @@ public class GroupController {
 
     @PostMapping("/create")
     public ResponseEntity<GroupResponseDto> create(@RequestBody GroupCreateDto createDto){
-        return groupService.create(createDto);
+        GroupResponseDto groupResponseDto = groupService.create(createDto);
+        return ResponseEntity.ok().body(groupResponseDto);
     }
     @GetMapping("/{id}")
     public ResponseEntity<GroupResponseDto> getById(@PathVariable(required = false) UUID id){
-        return groupService.getById(id);
+        GroupResponseDto group= groupService.getById(id);
+        return ResponseEntity.ok().body(group);
     }
     @GetMapping("/list")
-    public ResponseEntity<Page<GroupResponseDto>> getAll(Pageable pageable, String predicate){
-        return groupService.getAll(pageable,predicate);
+    public ResponseEntity<Page<GroupResponseDto>> getAll(Pageable pageable, @RequestParam(required = false) String predicate){
+        Page<GroupResponseDto> groupList = groupService.getAll(pageable, predicate);
+        return ResponseEntity.ok().body(groupList);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?>delete(@PathVariable UUID id){
-       return groupService.delete(id);
+        groupService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<GroupResponseDto>update(@PathVariable UUID id,
                                                  @RequestBody GroupUpdateDto updateDto){
-        return groupService.update(id, updateDto);
+        GroupResponseDto groupResponseDto = groupService.update(id, updateDto);
+        return ResponseEntity.ok().body(groupResponseDto);
     }
 
 }

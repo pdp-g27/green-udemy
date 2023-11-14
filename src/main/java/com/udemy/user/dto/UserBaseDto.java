@@ -32,5 +32,4 @@ public class UserBaseDto {
     @Pattern(regexp = "^(\\+998)\\d{9}", message = "pattern.phone.number")
     private String phoneNumber;
 
-
 }
