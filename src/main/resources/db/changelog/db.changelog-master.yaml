@@ -1,2 +1,4 @@
 databaseChangeLog:
-  -
+  - include:
+      file: 11.11.23-create-user/create-user.yaml
+      relativeToChangelogFile: true
